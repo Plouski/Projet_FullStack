@@ -1,0 +1,9 @@
+.wrapper {
+    color: #4E888F;
+    font-size: 14px;
+}
+@media (max-width : 800px){
+    .wrapper{
+        font-size: 7px;
+    }
+}

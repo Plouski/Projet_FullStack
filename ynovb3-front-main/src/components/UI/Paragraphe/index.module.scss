@@ -1,0 +1,13 @@
+.wrapper {
+    margin:auto;
+    color: #4E888F;
+    // font-size: 1vw;
+    font-size: 15px;
+}
+
+@media (max-width : 800px){
+   .wrapper{
+    color:black;
+       font-size: 10px;
+   }
+}

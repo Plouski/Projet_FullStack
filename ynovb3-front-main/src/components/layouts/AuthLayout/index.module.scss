@@ -1,0 +1,16 @@
+.wrapper {
+    height:100%;
+    margin-left: 25%;
+    margin-right: 25%;
+    padding-left: auto;
+    padding-right:auto;
+}
+.centrer_image{
+    text-align: center;
+    .image{
+        padding-top: 20px;
+        padding-bottom: 10px;
+        width : 250px;
+        height : 250px;
+    }
+}

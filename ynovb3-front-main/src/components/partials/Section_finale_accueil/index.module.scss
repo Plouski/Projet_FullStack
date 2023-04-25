@@ -1,0 +1,40 @@
+.wrapper{
+    padding: 50px 0px 90px;
+    background-image: url(././../../../../public/images/backgroundimage/FORME_2_SUPERPO_ORANGE_CLAIR.png);
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    @media (max-width: 991px) {
+        .ctawrapper .buttonswrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            max-width: unset;
+            width: 100%;
+        }
+    }
+    .buttonswrapper{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: baseline;
+        max-width: 620px;
+    }
+    .button_first{
+        margin: 0 20px;
+    }
+    .button_second{
+        margin: 0 20px;
+    }
+}
+
+@media (max-width : 800px){
+    .wrapper{
+        padding: 25px 0px 30px;
+    }
+}

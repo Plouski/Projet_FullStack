@@ -1,0 +1,78 @@
+.section_accueil{
+    padding: 100px 0px 90px;
+    .deux_colonnes{
+        background-image: url(../../../../public/images/backgroundimage/FORME_3_ORANGE_CLAIR.png);
+        background-repeat: no-repeat;
+        background-position: 100% 0;
+        background-size: contain;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .box_1{
+            width:100%;
+            img{
+                width: 100%;
+            }
+        }
+        .box_2{
+            padding-left: 50px;
+            text-align: start;
+            width:100%;
+            height:auto;
+        }
+    }
+}
+
+.section_second{
+    padding: 10px 0px 50px;
+    .deux_colonnes{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .box_1{
+            padding-right: 50px;
+            text-align: start;
+            width:100%;
+            height:auto;
+        }
+        .box_2{
+            width:100%;
+        }
+    }
+}
+
+//section d'accueil responsives
+@media (max-width : 800px){
+    .section_accueil{
+        padding: 20px 0 0;
+        .deux_colonnes{
+            background-size: contain;
+            flex-direction: column;
+            .box_2{
+                text-align: center;
+                width:100%;
+                height:auto;
+            }
+        }
+    }
+    
+}
+
+//section second responsives
+@media (max-width : 800px){
+    .section_second{
+        padding: 20px 0px 0px;
+        .deux_colonnes{
+            flex-direction: column;
+            .box_1{
+                background-color: #FF5429;
+                padding : 0;
+                width:100%;
+                height:auto;
+                padding-bottom: 15px;
+            }
+        }
+    }
+}

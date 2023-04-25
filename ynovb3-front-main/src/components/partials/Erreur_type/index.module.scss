@@ -1,0 +1,34 @@
+.deux_colonnes {
+    text-align: center;
+    padding: 100px 0px 90px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    .box_1{
+        color:red;
+        text-align: center;
+        width:100%;
+        padding: 0 20px 0;
+        height:auto;
+    }
+    .box_2{
+        width:100%;
+        img{
+            width: 50%;
+        }
+    }
+}
+
+//section d'accueil responsives
+@media (max-width : 800px){
+        .deux_colonnes{
+            padding : 0;
+            flex-direction: column;
+            .box_1{
+                text-align: center;
+                width:100%;
+                height:auto;
+                padding-bottom: 15px;
+            }
+        }
+}
