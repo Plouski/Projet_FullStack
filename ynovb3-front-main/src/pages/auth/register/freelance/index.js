@@ -151,7 +151,7 @@ const Index = () => {
         />
         <Button
           type="submit"
-          title="Se connecter"
+          title="S'inscrire"
           className="btn__primary"
         />
       </form><br/>

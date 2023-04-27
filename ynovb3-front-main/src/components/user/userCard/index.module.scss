@@ -1,0 +1,39 @@
+.card {
+  width: 400px;
+  opacity: 0.8;
+  margin:0px auto 10px;
+  border: 2px solid #4E888F;
+  background-color: white;
+  box-shadow: 0px 5px 20px #4E888F;
+  border-radius: 15px;
+ 
+  .content{
+        padding: 15px 20px; 
+        box-sizing: border-box;
+        .field_wrap {
+            color: #4E888F,;
+            position:relative;
+            padding: 0 0 10px;
+          }
+          
+          .top_row {
+            &:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+          
+            div {
+              float:left;
+              width:45%;
+              margin-right:5%;
+              &:last-child { 
+                margin:0;
+              }
+            }
+          }
+          .bouton {
+            padding: 10px 0px 5px;
+          }
+    }
+}

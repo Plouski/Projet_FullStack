@@ -16,6 +16,25 @@ exports.getSkills = async (req, res, next) => {
   }
 }
 
+//get a skill //by me
+exports.getSkill = async (req, res, next) => {
+  try {
+    const skill = await Skill.findById(req.params.id).populate('activity');
+    if (!skill) {
+      const error = new Error("Skill not found")
+      error.status = 404
+      throw error;
+    }
+    res.send({
+      skill: skill,
+      success: true
+    });
+  }
+  catch (err) {
+    next(err);
+  }
+}
+
 // create one skill (for admin)
 exports.createSkill = async (req, res, next) => {
 
@@ -45,7 +64,7 @@ exports.updateSkill = async (req, res, next) => {
   //
   try {
     // find and update in DB
-    const skillToUpdate = Skill.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const skillToUpdate = await Skill.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!skillToUpdate) {
       const error = new Error("skill not found")
       error.status = 404

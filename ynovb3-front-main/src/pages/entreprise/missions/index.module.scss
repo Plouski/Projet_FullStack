@@ -1,93 +1,18 @@
-.section_accueil {
-    padding: 100px 0px 90px;
-    .deux_colonnes {
-        background-image: url(././../../../../public/images/backgroundimage/FORME_1_ROSE.png);
+.container{
+    background-image: url(././../../../../public/images/backgroundimage/FORME_3_VERT_CLAIR.png);
         background-repeat: no-repeat;
-        background-position: 0% 0;
+        background-position: 50% 0;
         background-size: contain;
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        .box_1{
-            text-align: start;
-            width:100%;
-            height:auto;
-        }
-        .box_2{
-            width:100%;
-            img{
-                width: 100%;
-            }
-        }
-    }
-}
-
-.section_second{
-    padding: 10px 0px 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    .trois_colonnes{
-        padding-top: 20px;
-        display:flex;
-        flex-wrap: wrap;
-        .icon {
-            width : 50px;
-            height : 50px;
-        }
-        .box_1{
-            padding-top:20px;
-            flex: 1 ;   
-        }
-        .box_2{
-            padding-top:20px;
-            flex: 1 ;
-        }
-        .box_3{
-            padding-top:20px;
-            flex: 1 ;
-        }
-    }
-}
-
-.container {
+.title{
     text-align: center;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    margin: 1em;
-  }
-  
-
-
-//section d'accueil responsives
-@media (max-width : 800px){
-    .section_accueil{
-        padding: 20px 0px 0px;
-        .deux_colonnes{
-            flex-direction: column;
-            .box_1{
-                text-align: center;
-                width:100%;
-                height:auto;
-                padding-bottom: 15px;
-            }
-        }
-    }
+}
 }
 
-//2e section responsive
 @media (max-width : 800px){
-    .section_second{
-        padding: 0;
-        .trois_colonnes{
-            flex-direction: column;
-            padding:0;
-            .icon {
-                width : 30px;
-                height : 30px;
-            }
-        }
+    .container{
+        background-image: url(././../../../../public/images/backgroundimage/FORME_2_ROSE.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
     }
 }

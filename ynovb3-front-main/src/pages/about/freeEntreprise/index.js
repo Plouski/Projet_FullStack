@@ -2,6 +2,7 @@ import Title from "@/components/UI/Title"
 import Paragraphe from "@/components/UI/Paragraphe"
 import Container from "@/components/UI/Container"
 import Image from "../../../../public/images/images/FreeEntreprise.jpg";
+import styles from "./index.module.scss";
 
 const Index = () => {
   return (
@@ -17,7 +18,7 @@ const Index = () => {
       Des outils simples et une plateforme sécurisée pour faciliter l’administratif. " /><br/>
       <Paragraphe 
       text="Avec déjà plus de 100 000 projets réalisés avec succès, nous sommes fiers d’être aujourd’hui la plus importante communauté de freelancing en Europe." /><br/>
-      <img src={Image.src} alt="accueil" />
+      <img src={Image.src} alt="accueil" className={styles.image} />
     </Container>
   );
 }

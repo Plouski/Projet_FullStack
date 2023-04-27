@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import UserContext from "@/context/UserContext";
@@ -9,12 +9,11 @@ import Link from 'next/link';
 
 const Index = () => {
 
-  
   const router = useRouter();
   
   const { user, isLogged, logout } = useContext(UserContext);
 
-  console.log(user);
+  // console.log(user);
 
   const menu = [
     {
@@ -22,8 +21,19 @@ const Index = () => {
       link: "/about/freeEntreprise",
       className:styles.nav__item
     },
+    {
+      title: "Voir un freelance",
+      link: "/search",
+      className:styles.nav__item
+    },
   ]
-console.log(user);
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+
   return (
     <div className={`${styles.wrapper} flex`}>
       <div className={styles.logo}>
@@ -35,63 +45,85 @@ console.log(user);
         isLogged ? (
           <>
             <span>
-              {user.firstName} ({user.userType})
+              {user?.firstName}
             </span>
           </>
           ) : null
       }
       <nav className={styles.nav}>
         <ul className={styles.nav__list}>
-          {
-            menu.map((item, index) => (
-              <NavItem key={index} item={item} />
-            ))
-          }
-
           {/* ROLE COMPANY */}
           {
-            user.userType === 'COMPANY' ? (
+            user?.userType === 'COMPANY'  ? (
               <>
-                <li className={styles.nav__item}>
-                  <Button type="button" title="Entreprise" className="btn__secondary" handleClick={
-                    () => router.push('/account/entreprise')
-                  }/>
-                </li> 
-                <li className={styles.nav__item}>
-                  <Button type="button" title="Gérer mes missions" className="btn__secondary" handleClick={
+              <li className={styles.nav__item}>
+                  <Button type="button" title="Proposer à un freelance" className="btn__secondary" handleClick={
                     () => router.push('/entreprise/missions')
                   }/>
-                </li> 
-              </>
-            ) : null
-          }
-
-          {/* ROLE FREELANCE */}
-          {
-            user.userType === 'FREELANCE' ? (
-              <>
+                </li>
                 <li className={styles.nav__item}>
-                  <Button type="button" title="Compétences" className="btn__secondary" handleClick={
-                    () => router.push('/account/profil')
+                  <Button type="button" title="Mes missions" className="btn__secondary" handleClick={
+                    () => router.push('/entreprise/missions')
                   }/>
-                </li> 
-                <li className={styles.nav__item}>
-                  <Button type="button" title="Propositions" className="btn__secondary" handleClick={
-                    () => router.push('/account/profil')
-                  }/>
-                </li> 
-              </>
-            ) : null
-          }
-
-          {
-            isLogged ? (
-              <>
+                </li>
                 <li className={styles.nav__item}>
                   <Button type="button" title="Voir mon profil" className="btn__secondary" handleClick={
                     () => router.push('/account/profil')
                   }/>
                 </li> 
+              </>
+            ) : null
+          }
+          {/* ROLE FREELANCE */}
+          {
+            user?.userType === 'FREELANCE' ? (
+              <>
+                <li className={styles.nav__item}>
+                  <Button type="button" title="Propositions" className="btn__secondary" handleClick={
+                    () => router.push('/account/profil')
+                  }/>
+                </li>
+                <li className={styles.nav__item}>
+                  <Button type="button" title="Voir mon profil" className="btn__secondary" handleClick={
+                    () => router.push('/account/profil')
+                  }/>
+                </li> 
+              </>
+            ) : null
+          }
+          {/* ROLE ADMIN */}
+          {
+            user?.isAdmin === true ? (
+              <>
+                <li className={styles.nav__item}>
+                  <div className={styles.dropdown}>
+                    <button onClick={handleOpen}>
+                      Consulter
+                      {open ? (
+                        <ul className={styles.menu}>
+                          <li className={styles.menu_item}>
+                            <Link href="/admin/user">Utilisateur</Link>
+                          </li>
+                          <li className={styles.menu_item}>
+                            <Link href="/admin/activity">Métier</Link>
+                          </li>
+                          <li className={styles.menu_item}>
+                            <Link href="/admin/skill">Compétence</Link>
+                          </li>
+                          <li className={styles.menu_item}>
+                            <Link href="/admin/mission">Mission</Link>
+                          </li>
+                        </ul>
+                      ) : null}
+                    </button>
+                  </div>
+                </li>
+              </>
+            ) : null
+          }
+          {
+            isLogged ? (
+              <>
                 <li className={styles.nav__item}>
                   <Button type="button" title="Deconnexion" className="btn__primary" handleClick={
                     () => logout()
@@ -100,6 +132,11 @@ console.log(user);
               </>
               ) : ( 
               <>
+                {
+                  menu.map((item, index) => (
+                    <NavItem key={index} item={item} />
+                  ))
+                }
                 <li className={styles.nav__item}>
                   <Button type="button" title="Inscription" className="btn__secondary" handleClick={
                     () => router.push('/auth/register')

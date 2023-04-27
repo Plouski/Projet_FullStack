@@ -1,9 +1,10 @@
+import { useState } from "react";
 import Title from "@/components/UI/Title";
 import Paragraphe from "@/components/UI/Paragraphe";
 import { useRouter } from 'next/router';
 import styles from "./index.module.scss";
 import Button from "@/components/UI/Button";
-import Section_final from "@/components/partials/Section_finale_accueil";
+import Section_accueil from "@/components/partials/Section_accueil";
 import Image from "../../public/images/images/freelance_entreprise.jpg";
 import Freelance from "../../public/images/images/freelance.png";
 import Entreprise from "../../public/images/images/entreprise.png";
@@ -12,6 +13,12 @@ import Container from "@/components/UI/Container"
 
 export default function Home() {
   const router = useRouter();
+  const [inputText, setInputText] = useState("");
+  let inputHandler = (e) => {
+    //convert input text to lower case
+    var lowerCase = e.target.value.toLowerCase();
+    setInputText(lowerCase);
+  };
   return (
     <>
       <Container>
@@ -21,8 +28,8 @@ export default function Home() {
               <Title Level="h1" title="Entreprises & freelances étaient faits pour se rencontrer" />
               <Paragraphe text="Trouvez le talent parfait pour propulser vos projets !" /><br/>
               <Button type="button" title="En savoir plus" className="btn__primary" handleClick={
-                () => router.push('./about/freeEntreprise')
-              }/>
+                () => router.push('./about/freeEntreprise')}
+              />
             </div>
             <div className={styles.box_2}>
               <img src={Image.src} alt="accueil" className={styles.image} />
@@ -50,7 +57,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Section_final />
+        <Section_accueil />
       </Container>
     </>
   )

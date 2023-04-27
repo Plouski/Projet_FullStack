@@ -1,0 +1,13 @@
+.image{
+    width: 500px;
+    height: 500px
+}
+
+@media (max-width : 800px){
+
+    .image{
+        width : 150px;
+        height : 150px;
+    }
+
+}

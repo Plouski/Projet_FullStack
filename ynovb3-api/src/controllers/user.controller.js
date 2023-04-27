@@ -94,7 +94,7 @@ exports.updateMyFreelance = async (req, res, next) => {
       throw error;
     }
     //find freelance and update
-    const freelanceToUpdate = await Freelance.findById(me.freelance);
+    const freelanceToUpdate = await Freelance.findByIdAndUpdate(me.freelance);
     if (!freelanceToUpdate) {
       const error = new Error("freelance not found")
       error.status = 404
@@ -207,7 +207,7 @@ exports.updateUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     //find user and delete it
-    const userToDelete = await findById(req.params.id);
+    const userToDelete = await User.findByIdAndRemove(req.params.id);
     if (!userToDelete) {
       const error = new Error("User not found")
       error.status = 404
@@ -216,6 +216,7 @@ exports.deleteUser = async (req, res, next) => {
     //return deleted user
     res.send({
       success: true,
+      message: "user successfully delete",
       user: userToDelete
     })
   }

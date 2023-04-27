@@ -14,6 +14,25 @@ exports.getActivities = async (req, res, next) => {
   }
 }
 
+//get an activity //by me
+exports.getActivity = async (req, res, next) => {
+  try {
+    const activity = await Activity.findById(req.params.id).populate('skills');
+    if (!activity) {
+      const error = new Error("Activity not found")
+      error.status = 404
+      throw error;
+    }
+    res.send({
+      user: activity,
+      success: true
+    });
+  }
+  catch (err) {
+    next(err);
+  }
+}
+
 // create one activity
 exports.createActivity = async (req, res, next) => {
   const newActivity = new Activity({

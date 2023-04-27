@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useFetch from "@/hooks/useFetch";
 import Loading from "@/components/UI/Loading";
-import ProductGrid from "@/components/product/ProductGrid";
+import ProductGrid from "@/components/product/userGrid";
 import styles from "./index.module.scss";
 
 const Index = () => {

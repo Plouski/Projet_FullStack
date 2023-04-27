@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import { useRouter } from "next/router";
 import UserContext from "@/context/UserContext";
 import useFetch from "@/hooks/useFetch";
 import Input from "@/components/UI/Input";
@@ -7,12 +8,12 @@ import Modal from "@/components/UI/Modal";
 import Loading from "@/components/UI/Loading";
 import Title from '@/components/UI/Title';
 import Container from "@/components/UI/Container";
-import Erreur_authentification from "@/components/partials/Erreur_auth";
 import styles from "./index.module.scss";
 import Alert from '@mui/material/Alert';
 
 const Index = () => {  
 
+  const router = useRouter();
 
   const { isLogged, user, updateUser } = useContext(UserContext);
   
@@ -22,7 +23,7 @@ const Index = () => {
 
   const [isOpen , setIsOpen] = useState(false);
 
-  const {data: dataUpdate, error:errorUpdate, loading:loadingUpdate, fetchData:fetchDataUpdate, error} = useFetch({url:"/user", method:"PUT", body:userForm, token:token})
+  const {data: dataUpdate, error:errorUpdate, loading:loadingUpdate, fetchData:fetchDataUpdate} = useFetch({url:"/user", method:"PUT", body:userForm, token:token})
 
   useEffect(() => {
     setUserForm(user)
@@ -39,7 +40,9 @@ const Index = () => {
   if (errorUpdate) console.log(errorUpdate);
 
   const handleChange = (e) => {
-    setUserForm({ ...userForm, [e.target.name]: e.target.value })
+    setUserForm({ 
+      ...userForm, 
+      [e.target.name]: e.target.value })
   }
 
   const submitForm = (e) => {
@@ -156,19 +159,45 @@ const Index = () => {
                     </>
                   )
                 }
-                <Button title="modifier" className="btn__primary" type="button" handleClick={ 
-                  () => {
-                    setIsOpen(true);
-                  }
-                } />
+                <div className={styles.wrapper}>
+                  <div className={styles.buttons_wrapper}>
+                      <div className={styles.button_first}>
+                        <Button title="Modifier mon profil" className="btn__primary" type="button" handleClick={ 
+                          () => {
+                            setIsOpen(true);
+                          }
+                        } />
+                      </div>
+                      {
+                        user?.userType === 'COMPANY'  ? (
+                          <>
+                            <div className={styles.button_second}>
+                              <Button type="button" title="Voir mon entreprise" className="btn__secondary" handleClick={
+                                  () => router.push('/account/profil/entreprise')
+                              }/>
+                            </div>
+                          </>
+                        ) : null
+                      }
+                      {
+                        user?.userType === 'FREELANCE'  ? (
+                          <>
+                            <div className={styles.button_second}>
+                              <Button type="button" title="Voir mon poste" className="btn__secondary" handleClick={
+                                  () => router.push('/account/profil/freelance')
+                              }/>
+                            </div>
+                          </>
+                        ) : null
+                      }
+                  </div>
+                </div>
               </div>
             </Container>
           </>
         ) 
         : ( 
-          <>
-            <Erreur_authentification />
-          </>
+          null
         )
       }
     </>

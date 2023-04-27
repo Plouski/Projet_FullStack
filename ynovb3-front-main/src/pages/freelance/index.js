@@ -1,63 +1,42 @@
-import { useState, useContext } from 'react';
-import { useRouter } from 'next/router';
+import { useState, useContext, useEffect } from 'react';
 import UserContext from "@/context/UserContext";
-import useFetch from "@/hooks/useFetch";
-import Link from "next/link";
-import Title from '@/components/UI/Title';
-import Input from "@/components/UI/Input";
+import Title from "@/components/UI/Title";
+import Paragraphe from "@/components/UI/Paragraphe";
+import { useRouter } from 'next/router';
+import styles from "./index.module.scss";
 import Button from "@/components/UI/Button";
-import Label from "@/components/UI/Label";
-import Alert from '@mui/material/Alert';
-import Erreur_type from '@/components/partials/Erreur_type';
-
+import Section_accueil from "@/components/partials/Section_accueil";
+import Image from "../../../public/images/images/reflechir_freelance.jpg";
+import Erreur_type from "@/components/partials/Erreur_type";
+import Container from "@/components/UI/Container"
 
 const Index = () => {
   const [token, setToken] = useState();
 
   const { user, isLogged, logout } = useContext(UserContext);
 
-  const router = useRouter();
-
-  const [userForm, setUserForm] = useState({
-    name: "",
-    status: "",
-    siret: "",
-    address: [{
-      city: '',
-      zipCode: '',
-      street: '',
-    }],
-  });
-
-  const {fetchData, data, error, loading} = useFetch({url:'/user/company', method:"POST", body:userForm, token:token})
-    
-  const handleChange = (e) => {
-    setUserForm({
-      ...userForm,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const submitRegister = (e) => {
-    e.preventDefault();
-    fetchData();
-    if (fetchData) {
-      alert('Votre compte a bien été créé !')
-      localStorage.setItem('token', data.token);
-    }
-    else {
-      alert("Erreur d'inscription")
-    }
-    
-  }
+  
 
   return (
     <>
     {
     isLogged && user.userType === 'FREELANCE' ? (
           <>
-          <Title title="Freelance" Level="h1" />
-          
+            <Container>
+              <Title title="Freelance" Level="h1" />
+              <div className={styles.deux_colonnes}>
+                <div className={styles.box_1}>
+                  <Title Level="h1" title="Que faire en etant freelance ?" />
+                  <Paragraphe text="Consulter les propositions que m'ont envoyé les entreprises pour accepter ou pas" /><br/>
+                  <Button type="button" title="Voir les propositions" className="btn__primary" handleClick={
+                    () => router.push('./about/freeEntreprise')}
+                  />
+                </div>
+                <div className={styles.box_2}>
+                  <img src={Image.src} alt="accueil" className={styles.image} />
+                </div>
+              </div>
+            </Container>
           </>
           ) : ( 
           <Erreur_type />

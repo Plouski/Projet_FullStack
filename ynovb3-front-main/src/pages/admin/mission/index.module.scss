@@ -1,0 +1,18 @@
+.container{
+    background-image: url(././../../../../public/images/backgroundimage/FORME_4_SUPERPO_JAUNE.png);
+        background-repeat: no-repeat;
+        background-position: 100% 0;
+        background-size: contain;
+.title{
+    text-align: center;
+}
+}
+
+@media (max-width : 800px){
+    .container{
+        background-image: url(././../../../../public/images/backgroundimage/FORME_4_SUPERPO_JAUNE.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+}

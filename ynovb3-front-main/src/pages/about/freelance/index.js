@@ -1,12 +1,12 @@
 import Title from "@/components/UI/Title"
 import Paragraphe from "@/components/UI/Paragraphe"
 import Container from "@/components/UI/Container"
-import Section_final from "@/components/partials/Section_finale"
-import Image from "../../../../public/images/images/matching.jpg";
+import Section_freelance from "@/components/partials/Section_freelance"
+import Image from "../../../../public/images/images/freelance.jpg";
 import One from "../../../../public/images/images/number-1.png";
 import Two from "../../../../public/images/images/number-2.png";
 import Three from "../../../../public/images/images/number-3.png";
-import Freelance from "../../../../public/images/images/freelance.jpg";
+import Freelance from "../../../../public/images/images/objectif.jpg";
 
 import styles from "./index.module.scss";
 
@@ -72,7 +72,7 @@ const Index = () => {
                     </div>
                 </div>
             </div>
-            <Section_final />
+            <Section_freelance />
         </Container>
     );
 }

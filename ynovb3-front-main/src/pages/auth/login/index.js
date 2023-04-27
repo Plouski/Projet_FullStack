@@ -16,16 +16,17 @@ const Index = () => {
 
   const { login } = useContext(UserContext);
 
+  const [token, setToken] = useState();
+
   const [userForm, setUserForm] = useState({
     email: "",
     password:""
   });
 
-  const [token, setToken] = useState();
+  const {data, error, loading, fetchData} = useFetch({ url: "/auth/login", method: "POST", body: userForm, token: null })
 
-  const { fetchData, data, error, loading } = useFetch({ url: "/auth/login", method: "POST", body: userForm, token: null })
-  const { data: user, error: userError, loading:userLoading, fetchData:fetchDataUser } = useFetch({ url: "/user", method: "GET", body: null, token: token });
-
+  const { data: user , error: userError, loading:userLoading, fetchData:fetchDataUser } = useFetch({ url: "/user", method: "GET", body: null, token: token });
+  
   useEffect(() => {
     if (data.token) {
       setToken(data.token);
@@ -37,16 +38,18 @@ const Index = () => {
     fetchDataUser();
     if (user.success) {
       login({
+        //tous les utilisateurs
         firstName: user.user.firstName,
         lastName: user.user.lastName,
         email:user.user.email,
         phone: user.user.phone,
+        isAdmin: user.user.isAdmin,
         userType: user.user.userType,
         address: {
           city: user.user.address.city,
           zipCode: user.user.address.zipCode,
           street: user.user.address.street
-        }
+        },
       })
       router.push('/account/profil');
     }

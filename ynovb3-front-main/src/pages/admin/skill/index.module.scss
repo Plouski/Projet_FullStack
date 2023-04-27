@@ -1,0 +1,18 @@
+.container{
+    background-image: url(././../../../../public/images/backgroundimage/FORME_3_BLEU_CLAIR.png);
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        background-size: contain;
+.centrer{
+    text-align: center;
+}
+}
+
+@media (max-width : 800px){
+    .container{
+        background-image: url(././../../../../public/images/backgroundimage/FORME_3_BLEU_CLAIR.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+}

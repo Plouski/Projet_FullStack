@@ -7,9 +7,6 @@ import CompanyLayout from '@/components/layouts/CompanyLayout';
 import { UserContextProvider } from '@/context/UserContext';
 
 export default function App({ Component, pageProps }) {
-  const company = useState ({
-    userType: 'COMPANY'
-   })
 
   const router = useRouter();
 
@@ -29,11 +26,6 @@ export default function App({ Component, pageProps }) {
         )
       }
       </UserContextProvider>
-      {/* <UserContextProvider value={company}>
-        <CompanyLayout>
-            <Component {...pageProps} />
-        </CompanyLayout>
-      </UserContextProvider> */}
     </>
   )
 }

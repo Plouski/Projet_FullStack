@@ -1,0 +1,33 @@
+.deux_colonnes {
+    background-image: url(././../../../public/images/backgroundimage/FORME_1_SUPERPO_ROUGE.png);
+    background-repeat: no-repeat;
+    background-position: 0% 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    .box_1{
+        text-align: start;
+        width:100%;
+        height:auto;
+    }
+    .box_2{
+        width:100%;
+        img{
+            width: 100%;
+        }
+    }
+}
+
+//section d'accueil responsives
+@media (max-width : 800px){
+    .deux_colonnes{
+        flex-direction: column;
+        .box_1{
+            text-align: center;
+            width:100%;
+            height:auto;
+            padding-bottom: 15px;
+        }
+    }
+}
+

@@ -24,15 +24,15 @@ const Index = () => {
     userType : "COMPANY",
     address: {
       city: "",
-      zipCode: 0,
+      zipCode: null,
       street: ""
     },
   });
 
-
-  const {fetchData, data, error, loading} = useFetch({url:'/auth/register', method:"POST", body:userForm, token:null})
+  const {data, error, loading, fetchData} = useFetch({url:'/auth/register', method:"POST", body:userForm, token:null})
   
   const handleChange = (e) => {
+    console.log(userForm);
     setUserForm({
       ...userForm,
       [e.target.name]: e.target.value
@@ -52,9 +52,9 @@ const Index = () => {
     e.preventDefault();
     fetchData();
     try {
+      router.push('/auth/login')
       alert('Votre compte a bien été créé !')
       localStorage.setItem('token', data.token);
-      router.push('/auth/login')
     }
     catch (error){
       console.log(error);
@@ -69,7 +69,7 @@ const Index = () => {
           <div className={styles.field_wrap}>
             <Label text="Prénom"/>
             <Input
-              type="firstName"
+              type="text"
               name="firstName"
               placeholder="Votre prénom"
               isRequired={true}
@@ -80,7 +80,7 @@ const Index = () => {
           <div className={styles.field_wrap}>
             <Label text="Nom"/>
             <Input
-              type="lastName"
+              type="text"
               name="lastName"
               placeholder="Votre nom"
               isRequired={true}
@@ -122,7 +122,7 @@ const Index = () => {
           <div className={styles.field_wrap}>
           <Label text="Code postal"/>
           <Input 
-            type="zipcode"
+            type="text"
             name="zipCode"
             maxLength= "5"
             placeholder="votre CP"
@@ -134,7 +134,7 @@ const Index = () => {
           <div className={styles.field_wrap}>
             <Label text="Ville"/>
             <Input 
-              type="city"
+              type="text"
               name="city"
               placeholder="votre ville"
               isRequired={true}
@@ -154,7 +154,7 @@ const Index = () => {
         />
         <Button
           type="submit"
-          title="Se connecter"
+          title="S'inscrire'"
           className="btn__primary"
         />
       </form><br/>

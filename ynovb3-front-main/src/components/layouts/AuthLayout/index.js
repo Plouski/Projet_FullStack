@@ -1,17 +1,23 @@
 import React from 'react';
 import Footer from "@/components/partials/Footer";
 import styles from "./index.module.scss";
-import Image from "../../../../public/images/backgroundimage/VARIANT_BLEU_CLAIR.png";
+import Image from "../../../../public/images/images/auth.jpg";
 
 
-const Index = ({ children }) => {
+const Index = ({ children, title }) => {
   return (
     <>
       <div className={styles.wrapper}>
+        <div className={styles.left__part}>
+          <div className={styles.wrapper}>
+            <img src={Image.src} alt="auth" />
+          </div>
+        </div>
+        <div className={styles.right__part}>
+          <div className={styles.form__wrapper}>
           {children}
-      </div>
-      <div className={styles.centrer_image}>
-        <img src={Image.src} alt="accueil" className={styles.image} /> 
+          </div>
+        </div>
       </div>
       <Footer/>
     </>

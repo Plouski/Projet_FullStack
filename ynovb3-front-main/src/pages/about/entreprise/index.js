@@ -1,9 +1,9 @@
 import Title from "@/components/UI/Title"
 import Paragraphe from "@/components/UI/Paragraphe"
 import Container from "@/components/UI/Container";
-import Section_final from "@/components/partials/Section_finale";
-import Image from "../../../../public/images/images/about_freelance.png";
-import Freelance from "../../../../public/images/images/freelance.jpg";
+import Section_entreprise from "@/components/partials/Section_entreprise";
+import Image from "../../../../public/images/images/entreprise.jpg";
+import Freelance from "../../../../public/images/images/objectif.jpg";
 import styles from "./index.module.scss";
 
 const Index = () => {
@@ -45,7 +45,7 @@ const Index = () => {
                     </div>
                 </div>
             </div>
-            <Section_final/>
+            <Section_entreprise/>
         </Container>
     );
 }

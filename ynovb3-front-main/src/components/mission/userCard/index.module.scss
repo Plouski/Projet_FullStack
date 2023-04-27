@@ -1,0 +1,25 @@
+.card {
+  width: 400px;
+  opacity: 0.8;
+  margin:0px auto 10px;
+  border: 2px solid #4E888F;
+  background-color:white;
+  box-shadow: 0px 5px 20px #4E888F;
+  border-radius: 15px;
+  
+  .content{
+    text-align: center;
+    padding: 15px 20px; 
+    box-sizing: border-box;
+    .date{
+      color: #4E888F;
+    }
+    .amount{
+      text-align: end;
+    }
+    .description{
+      text-align: start;
+    }
+
+    }
+}
