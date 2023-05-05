@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from "./index.module.scss";
-import Link from 'next/link';
 
 const Index = ({label, text}) => {
 

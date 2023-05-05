@@ -13,29 +13,49 @@ import styles from "./index.module.scss";
 
 const Index = () => {
 
-    const router = useRouter();
+  const router = useRouter();
 
-    const { isLogged, user} = useContext(UserContext);
+  const { isLogged, user} = useContext(UserContext);
 
-    const [token, setToken] = useState();
+  const [token, setToken] = useState();
 
-    const [activityForm, setActivityForm] = useState({
-        name: "",
-        skills: []
-    });
+  const [activityForm, setActivityForm] = useState({
+    name: "",
+    // skills: []
+  });
 
-    // const [values,setValues]=useState([])
-    // const [options,setOptions]=useState()
+  // const optionList = [
+  //   { value: "red", label: "Red" },
+  //   { value: "green", label: "Green" },
+  //   { value: "yellow", label: "Yellow" },
+  //   { value: "blue", label: "Blue" },
+  //   { value: "white", label: "White" }
+  // ];
 
+  // function handleSelect() {
+  //   setActivityForm();
+  // }
+
+  //Création de métier
   const { data: activity, error, loading: activityLoading, fetchData: fetchDataActivity } = useFetch({ url: "/activity", method: "POST", body: activityForm, token: token });
+  
+  //Affichafe des compétences
   const { data, loading, fetchData } = useFetch({ url: "/skill", method: "GET", body: null, token: token });
 
-//   useEffect(()=>{
-//     fetch("http://localhost:3001/api/v1/skill").then((data)=>data.json()).then((val)=>setValues(val))
-//   },[])
+  //Obtenir le token
+  useEffect(() => {
+    setToken(localStorage.getItem('token'))
+  }, []);
 
-// console.log(values,"Ca a marché !")
+  //Si token existe, on peut créér et afficher
+  useEffect(() => {
+    if (token != null){
+      fetchDataActivity();
+      //fetchData();
+    }
+  }, [token]);
 
+  //Remplir les champs du formulaire
   const handleChange = (e) => {
     console.log(activityForm);
     setActivityForm({
@@ -44,30 +64,23 @@ const Index = () => {
     })
   }
 
-  useEffect(() => {
-    if (token != null){
-      fetchDataActivity();
-      //fetchData();
-    }
-  }, [token]);
-
-  useEffect(() => {
-    setToken(localStorage.getItem('token'))
-  }, []);
-
+  //Quand on clique, cela crée le metier s'il y a pas d'erreur
   const submitRegister = (e) => {
     e.preventDefault();
     fetchDataActivity();
-    try {
-        router.push('/admin/activity')
-        alert('Le métier a bien été créé !')
-      }
-      catch (error){
-        console.log(error);
-      }
+    if(error){
+      console.log(error);
+    }
   }
 
-  console.log(data);
+  //Si tout est ok, cela vous diriger à la page en disant que le métier a bien été créé
+  useEffect(() => {
+    if (activity.success == true){
+      router.push('/admin/activity')
+      alert('Le métier a bien été créé !')
+    }
+  }, [activity]);
+
   return (
     <>
       {
@@ -87,12 +100,12 @@ const Index = () => {
                   value={activityForm.name}
                 />
                 {/* <Select
+                  options={optionList}
+                  placeholder="Selectionner votre compétence"
+                  value={activityForm.skills?.name}
+                  onChange={(e) => handleSelect(e)}
+                  isSearchable={true}
                   isMulti
-                  name="name"
-                  options={values}
-                  className="basic-multi-select"
-                  onChange={(e) => handleChange(e)}
-                  classNamePrefix="select"
                 /><br/> */}
                 <Button
                   type="submit"

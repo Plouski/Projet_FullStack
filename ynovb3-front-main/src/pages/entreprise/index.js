@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import UserContext from "@/context/UserContext";
 import Title from "@/components/UI/Title";
 import Paragraphe from "@/components/UI/Paragraphe";
@@ -12,8 +12,6 @@ import Container from "@/components/UI/Container"
 const Index = () => {
 
   const router = useRouter();
-  
-  const [token, setToken] = useState();
 
   const { user, isLogged, logout } = useContext(UserContext);
 
@@ -33,7 +31,7 @@ const Index = () => {
                   /><br/><br/>
                   <Paragraphe text="Proposer un ou mes missions aux freelances" /><br/>
                   <Button type="button" title="Chercher un freelance" className="btn__primary" handleClick={
-                    () => router.push('./about/freeEntreprise')}
+                    () => router.push('/')}
                   />
                 </div>
                 <div className={styles.box_2}>

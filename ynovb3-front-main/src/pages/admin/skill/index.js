@@ -16,21 +16,23 @@ export default function Home() {
 
   const [token, setToken] = useState();
 
+  //Affichage de tous les infos de compétences 
   const { data, error, loading, fetchData } = useFetch({ url: "/skill", method: "GET", body: null, token: token });
   
+  //Obtenir le token
+  useEffect(() => {
+    setToken(localStorage.getItem('token'))
+  }, []);
 
+  //Si le token existe on peut afficher tous les infos
   useEffect(() => {
     if (token != null){
       fetchData();
     }
   }, [token]);
-
-  useEffect(() => {
-    setToken(localStorage.getItem('token'))
-  }, []);
   
-  console.log(data);
-  // console.log(getUser)
+  // console.log(data);
+  
   return (
     
     <>

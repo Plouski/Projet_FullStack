@@ -6,7 +6,6 @@ import styles from "./index.module.scss";
 const Index = ({}) => {
 
   const [data, setData] = useState([]);
-  // console.log(process.env.NEXT_PUBLIC_API_URL);
 
   useEffect(() => {
     fetch(`http://localhost:3001/api/v1/freelance/search`, {

@@ -23,39 +23,67 @@ const Index = () => {
 
   const [isOpen , setIsOpen] = useState(false);
 
-  const {data: dataUpdate, error:errorUpdate, loading:loadingUpdate, fetchData:fetchDataUpdate} = useFetch({url:"/user", method:"PUT", body:userForm, token:token})
+  //Modifier un ou des champs dans la base de données
+  let {data , loading, error, fetchData} = useFetch({url:`/user`,method:"PUT", body:userForm, token:token})
+
+  //recuperer tous les informations de id venant de la base de données
+  const {data: getUser , error: userError, loading:userLoading, fetchData:fetchDataUser } = useFetch({url:`/user`,method:"GET", body:null, token:token})
 
   useEffect(() => {
     setUserForm(user)
   }, [user]);
   
+  //Si cela a bien modifié la base de données, le modal va se fermer
   useEffect(() => {
-    if (dataUpdate.success) {
+    if (fetchData.success) {
       setIsOpen(false);
-      updateUser(dataUpdate.user)
+      updateUser(fetchData.user)
     }
-  }, [dataUpdate]);
+  }, [fetchData]);
 
-  if (loadingUpdate) return <Loading />
-  if (errorUpdate) console.log(errorUpdate);
+  //Recuperer le token
+  useEffect(() => {
+    setToken(localStorage.getItem('token'))
+  }, []);
 
+  //Si token existe, on peut recuprer tous les infos
+  useEffect(() => {
+    if (token != null){
+      fetchDataUser();
+    }
+  }, [token]);
+
+  if (loading) return <Loading />
+  if (error) console.log(error);
+
+  //Remplir les champs de formulaire
   const handleChange = (e) => {
+    console.log(userForm)
     setUserForm({ 
       ...userForm, 
-      [e.target.name]: e.target.value })
+      [e.target.name]: e.target.value 
+    })
+    if (e.target.name === "street"){
+      userForm.address.street = e.target.value
+    }
+    if (e.target.name === "zipCode"){
+      userForm.address.zipCode = e.target.value
+    }
+    if (e.target.name === "city"){
+      userForm.address.city = e.target.value
+    }
   }
 
+  //Quand on clique le bouton, cela modifie le profil
   const submitForm = (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    setToken(token);
-    fetchDataUpdate();
-    if (dataUpdate.success) {
-      alert ('Votre profil a bien été modifié !')
+    fetchData();
+    if (data) {
+      alert ('Votre profil a bien été modifié ! Il faut bien recharger votre page pour bien afficher les informations.');
       setIsOpen(false);
     }
   }
-  console.log(userForm);
+
   return (
     <>
       {
@@ -75,7 +103,7 @@ const Index = () => {
                     label="Prénom" 
                     type="text" 
                     name="firstName" 
-                    value={userForm.firstName}
+                    value={userForm?.firstName}
                     isRequired={true}
                     placeholder="entrer votre prénom"
                     onChange={(e) => handleChange(e)}
@@ -84,7 +112,7 @@ const Index = () => {
                     label="Nom" 
                     type="text" 
                     name="lastName" 
-                    value={userForm.lastName}
+                    value={userForm?.lastName}
                     isRequired={true}
                     placeholder="entrer votre nom"
                     onChange={(e) => handleChange(e)}
@@ -93,7 +121,7 @@ const Index = () => {
                     label="Email" 
                     type="text" 
                     name="email" 
-                    value={userForm.email}
+                    value={userForm?.email}
                     isRequired={true}
                     placeholder="entrer votre email"
                     onChange={(e) => handleChange(e)}
@@ -102,7 +130,7 @@ const Index = () => {
                     label="Numéro de portable" 
                     type="tel" 
                     name="phone" 
-                    value={userForm.phone}
+                    value={userForm?.phone}
                     isRequired={true}
                     placeholder="entrer votre numéro de portable"
                     onChange={(e) => handleChange(e)}
@@ -114,7 +142,7 @@ const Index = () => {
                       placeholder="entrer votre rue"
                       isRequired={true}
                       onChange={(e) => handleChange(e)}
-                      value={userForm.address.street}
+                      value={userForm?.address?.street}
                     />
                     <Input
                       label="Code postal" 
@@ -124,7 +152,7 @@ const Index = () => {
                       placeholder="entrer votre code postal"
                       isRequired={true}
                       onChange={(e) => handleChange(e)}
-                      value={userForm.address.zipCode}
+                      value={userForm?.address?.zipCode}
                     />
                     <Input 
                       label="Ville" 
@@ -133,7 +161,7 @@ const Index = () => {
                       placeholder="entrer votre ville"
                       isRequired={true}
                       onChange={(e) => handleChange(e)}
-                      value={userForm.address.city}
+                      value={userForm?.address?.city}
                     />
                     <Button type="submit" title="modifier" className="btn__primary"/>
                   </form>
@@ -148,14 +176,14 @@ const Index = () => {
                 {
                   user && (
                     <>
-                      <p>Le type de votre compte : {user.userType}</p><br/>
-                      <p>Prénom : {user.firstName}</p><br/>
-                      <p>Nom : {user.lastName}</p><br/>
-                      <p>Email : {user.email}</p><br/>
-                      <p>Numéro de portable : {user.phone}</p><br/>
-                      <p>Adresse : {user.address.street}</p><br/>
-                      <p>Code postal : {user.address.zipCode}</p><br/>
-                      <p>Ville : {user.address.city}</p><br/>
+                      <p>Le type de votre compte : {user?.userType}</p><br/>
+                      <p>Prénom : {user?.firstName}</p><br/>
+                      <p>Nom : {user?.lastName}</p><br/>
+                      <p>Email : {user?.email}</p><br/>
+                      <p>Numéro de portable : {user?.phone}</p><br/>
+                      <p>Adresse : {user?.address?.street}</p><br/>
+                      <p>Code postal : {user?.address?.zipCode}</p><br/>
+                      <p>Ville : {user?.address?.city}</p><br/>
                     </>
                   )
                 }

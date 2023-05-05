@@ -13,7 +13,6 @@ import Container from "@/components/UI/Container";
 import Paragraphe from "@/components/UI/Paragraphe"
 import Input from "@/components/UI/Input";
 
-
 const Index = () => {
 
   const router = useRouter();
@@ -22,68 +21,64 @@ const Index = () => {
 
   const [token, setToken] = useState();
 
-  const [activityForm, setActivityForm] = useState();
+  const [activityForm, setActivityForm] = useState({
+    name:""
+  });
 
   const [id, setId] = useState();
 
   const [isOpen , setIsOpen] = useState(false);
 
-
-  let {data , loading, error, fetchData} = useFetch({url:`/activity/${id}`,method:"GET", body:null, token:token})
-  const {data: dataUpdate, error:errorUpdate, loading:loadingUpdate, fetchData:fetchDataUpdate} = useFetch({url:`/activity/${id}`, method:"PUT", body:activityForm, token:token})
-
-  useEffect(() => {
-    setActivityForm(user)
-  }, [user]);
-
-  useEffect(() => {
-    if (dataUpdate.success) {
-      setIsOpen(false);
-      updateUser(dataUpdate.user)
-    }
-  }, [dataUpdate]);
+  //Modifier un ou des champs de ID dans la base de données
+  let {data , loading, error, fetchData} = useFetch({url:`/activity/${id}`,method:"PUT", body:activityForm, token:token})
   
-  if (loadingUpdate) return <Loading />
-  if (errorUpdate) console.log(errorUpdate);
+  //recuperer tous les informations de id venant de la base de données
+  const {data: activity , error: activityError, loading:activityLoading, fetchData:fetchDataActivity } = useFetch({url:`/activity/${id}`,method:"GET", body:null, token:token})
 
-  const handleChange = (e) => {
-    setActivityForm({ ...activityForm, [e.target.name]: e.target.value })
-  }
-
-  const submitForm = (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem('token');
-    setToken(token);
-    fetchDataUpdate();
-    if (dataUpdate.success) {
-      alert ('Le métier a bien été modifié !')
-      setIsOpen(false);
-    }
-  }
-
-  useEffect(() => {
-    if (token != null){
-      fetchData();
-    }
-  }, [token]);
-
+  //Recuperer le token
   useEffect(() => {
     setToken(localStorage.getItem('token'))
   }, []);
 
+  //Si token existe, on peut recuprer tous les infos
+  useEffect(() => {
+    if (token != null){
+      fetchDataActivity();
+    }
+  }, [token]);
+
+  //Si la route a ID on peut voir tous les infos de ID
   useEffect(() => {
     if (router.isReady) {
       setId(router.query.id);
     }
     if (id) {
-      fetchData();
+      fetchDataActivity();
     }
   }, [router.isReady, id])
 
-  // console.log(token)
-  // console.log(data);
+  data = {...data.activity}
 
-  data = {...data.user}
+  if (loading) return <Loading />
+  if (error) console.log(error);
+
+  const handleChange = (e) => {
+    console.log(activityForm)
+    setActivityForm({ ...activityForm, [e.target.name]: e.target.value })
+  }
+
+  //Quand on click cela modifie
+  const submit = (e) => {
+    e.preventDefault();
+    fetchData();
+    if (data) {
+      router.push('/admin/activity')
+      alert ("Le métier a bien été modifié !")
+    }
+    // else console.log(error);
+  }
+
+  // console.log(activity)
 
   return (
     <>
@@ -99,12 +94,12 @@ const Index = () => {
                             <Alert severity="error">Oups, une erreur s'est produite. Veuillez cliquer le bouton puis réinitialiser.</Alert>
                         ) 
                     }<br/>
-                    <form onSubmit={(e) => {submitForm(e)}}>
+                    <form onSubmit={(e) => {submit(e)}}>
                       <Input 
                         label="Métier" 
                         type="text" 
-                        name="activity" 
-                        value={data.name}
+                        name="name" 
+                        value={activityForm?.name}
                         isRequired={true}
                         placeholder="entrer le métier"
                         onChange={(e) => handleChange(e)}
@@ -119,7 +114,7 @@ const Index = () => {
             <div className={styles.deux_colonnes}>
                 <div className={styles.box_1}>
                     <Title Level="h1" title="Mise à jour de ce metier"/>
-                    <Paragraphe text={data.name} /><br/>
+                    <Paragraphe text={activity.user?.name} /><br/>
                     <Button title="Modifier" className="btn__primary" type="button" handleClick={ 
                         () => {
                         setIsOpen(true);
@@ -127,7 +122,7 @@ const Index = () => {
                     } />
                 </div>
                 <div className={styles.box_2}>
-                    <img src={Image.src} alt="accueil" />
+                    <img src={Image.src} alt="maj" />
                 </div>
             </div>
         </div>

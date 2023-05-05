@@ -13,15 +13,11 @@ import Container from "@/components/UI/Container"
 
 export default function Home() {
   const router = useRouter();
-  const [inputText, setInputText] = useState("");
-  let inputHandler = (e) => {
-    //convert input text to lower case
-    var lowerCase = e.target.value.toLowerCase();
-    setInputText(lowerCase);
-  };
+
   return (
     <>
       <Container>
+        {/* Section d'Accueil */}
         <div className={styles.section_accueil}>
           <div className={styles.deux_colonnes}>
             <div className={styles.box_1}>
@@ -36,6 +32,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {/* Section secondaire */}
         <div className={styles.section_second}>
           <Title Level="h2" title="FreeEntreprise c'est avant tout une communauté"/>
           <Paragraphe text="Où freelances et entreprises se retrouvent sur une marketplace, pour collaborer en toute simplicité." />

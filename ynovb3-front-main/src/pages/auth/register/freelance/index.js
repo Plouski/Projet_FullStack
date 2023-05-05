@@ -27,8 +27,10 @@ const Index = () => {
     },
   });
 
+  //CReation du compte de FREELANCE
   const {fetchData, data, error, loading} = useFetch({url:'/auth/register', method:"POST", body:userForm, token:null})
-    
+  
+  //Remplir les champs du formulaire
   const handleChange = (e) => {
     setUserForm({
       ...userForm,
@@ -45,18 +47,32 @@ const Index = () => {
     }
   }
 
+  // Quand on clique cela crée le compte
   const submitRegister = (e) => {
     e.preventDefault();
     fetchData();
-    try {
-      alert('Votre compte a bien été créé !')
-      localStorage.setItem('token', data.token);
+    if (data){
       router.push('/auth/login')
+      alert('Votre compte a bien été créé !')
     }
-    catch (error){
-      console.log(error);
-    }
+    // else (error)
+    // console.log(error);
   }
+
+  // const submitRegister = (e) => {
+  //   e.preventDefault();
+  //   fetchData();
+  //   if (error){
+  //     console.log(error);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   if (data.success == true){
+  //     router.push('/auth/login')
+  //     alert('Votre compte a bien été créé !')
+  //   }
+  // }, [data]);
 
   return (
     <>

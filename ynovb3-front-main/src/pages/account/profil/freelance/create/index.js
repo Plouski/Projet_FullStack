@@ -23,18 +23,22 @@ const Index = () => {
     yearOfExperience: null,
   });
 
+  //Creation de poste de freelance dans la base de données
   const { data, error, loading, fetchData} = useFetch({ url: "/auth/freelance", method: "POST", body: freelanceForm, token: token });
 
+  //Obtenir le token
+  useEffect(() => {
+    setToken(localStorage.getItem('token'))
+  }, []);
+
+  //Si token existe, on peut créer le poste de freelance
   useEffect(() => {
     if (token != null){
         fetchData();
     }
   }, [token]);
 
-  useEffect(() => {
-    setToken(localStorage.getItem('token'))
-  }, []);
-
+  //Remplir les champs de formulaire
   const handleChange = (e) => {
     console.log(freelanceForm);
     setfreelanceForm({
@@ -43,17 +47,21 @@ const Index = () => {
     })
   }
 
+  //Quand on clique, cela crée le poste de freelance s'il y a pas d'erreur
   const submitRegister = (e) => {
     e.preventDefault();
     fetchData();
-    if(data) {
-        router.push('/account/profil/freelance')
-        alert('Votre poste de freelance a bien été créé !')
-      }
-    //   catch (error){
-    //     console.log(error);
-    //   }
+    if(error){
+      console.log(error);
+    }
   }
+  //Si tout est ok, cela vous diriger à la page en disant que le poste de freelance a bien été crée
+  useEffect(() => {
+    if (data.success == true){
+      router.push('/account/profil/freelance')
+      alert('Votre poste de freelance a bien été créé !')
+    }
+  }, [data]);
 
   return (
     <>
@@ -63,21 +71,21 @@ const Index = () => {
           <div className={styles.container}>
             <Title title="Votre poste de freelance" Level="h1" />
             <form onSubmit={(e) => submitRegister(e)}>
-              <Label text="Taux"/>
+              <Label text="Tarif"/>
               <Input
                 type="number"
                 name="rate"
                 isRequired={true}
-                placeholder="veuillez saisir votre taux"
+                placeholder="veuillez saisir votre tarif"
                 required={true}
                 onChange={(e) => handleChange(e)}
                 value={freelanceForm.rate}
               />
-              <Label text="Années d'expérience"/>
+              <Label text="Année d'expérience"/>
               <Input
                 type="number"
                 name="yearOfExperience"
-                placeholder="veuillez saisir votre nombre d'expérience"
+                placeholder="veuillez saisir votre nombre année d'expérience"
                 required={true}
                 onChange={(e) => handleChange(e)}
                 value={freelanceForm.yearOfExperience}

@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
 import Link from "next/link";
 import Title from '@/components/UI/Title';
 import Paragraphe from '@/components/UI/Paragraphe';

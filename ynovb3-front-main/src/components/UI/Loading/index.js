@@ -2,6 +2,7 @@ import styles from "./index.module.scss";
 import LoaderGif from "../../../../public/images/loader.gif";
 
 const Index = ({isLoad}) => {
+  
   return (
     <>
     {

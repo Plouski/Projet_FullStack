@@ -5,7 +5,9 @@ import styles from "./index.module.scss";
 import { useRouter } from 'next/router';
 
 const Index = ({}) => {
+
     const router = useRouter();
+    
     return (
         <div className={styles.wrapper}>
             <Title Level="h3" title="Rejoignez FreeEntreprise, la communauté qui enchaîne les succès"/>

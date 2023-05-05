@@ -12,7 +12,7 @@ import Image from "../../../../../public/images/images/supprimer.png";
 import Container from "@/components/UI/Container";
 
 const Index = () => {
-
+  
   const { isLogged, user} = useContext(UserContext);
 
   const router = useRouter();
@@ -66,7 +66,8 @@ const Index = () => {
     // else console.log(error);
   }
 
-  console.log(getUser)
+  // console.log(getUser)
+  
   return (
     <>
       {

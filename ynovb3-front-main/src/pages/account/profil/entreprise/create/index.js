@@ -29,18 +29,22 @@ const Index = () => {
     },
   });
 
+  //Creation d'entreprise dans la base de données
   const { data, error, loading, fetchData} = useFetch({ url: "/auth/company", method: "POST", body: companyForm, token: token });
 
-  useEffect(() => {
-    if (token != null){
-        fetchData();
-    }
-  }, [token]);
-
+  //Obtenir le token
   useEffect(() => {
     setToken(localStorage.getItem('token'))
   }, []);
 
+  //Si token existe, on peut créer l'entreprise 
+  useEffect(() => {
+    if (token != null){
+      fetchData();
+    }
+  }, [token]);
+
+  //Remplir les champs du formulaire
   const handleChange = (e) => {
     console.log(companyForm);
     setCompanyForm({
@@ -58,17 +62,22 @@ const Index = () => {
     }
   }
 
+  //Quand on clique, cela crée une entreprise s'il y a pas d'erreur
   const submitRegister = (e) => {
     e.preventDefault();
     fetchData();
-    if(data) {
-        router.push('/account/profil/entreprise')
-        alert('Votre entreprise a bien été créé !')
-      }
-    //   catch (error){
-    //     console.log(error);
-    //   }
+    if(error){
+      console.log(error);
+    }
   }
+
+  //Si tout est ok, cela vous diriger à la page en disant que l'entreprise a bien été créée
+  useEffect(() => {
+    if (data.success == true){
+      router.push('/account/profil/entreprise')
+      alert('Votre entreprise a bien été créé !')
+    }
+  }, [data]);
 
   return (
     <>
@@ -92,7 +101,7 @@ const Index = () => {
               <Input
                 type="status"
                 name="status"
-                placeholder="SAS, SASU, SARL, EURL, SA"
+                placeholder="SAS, SASU, SARL, EURL, SA, ..."
                 required={true}
                 onChange={(e) => handleChange(e)}
                 value={companyForm.status}

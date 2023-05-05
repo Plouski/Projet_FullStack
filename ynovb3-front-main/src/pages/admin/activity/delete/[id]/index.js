@@ -57,7 +57,7 @@ const Index = () => {
   if (loading) return <Loading />
   if (error) console.log(error);
 
-  //Quand on click cela supprime
+  //Quand on click, cela supprime
   const submit = (e) => {
     e.preventDefault();
     fetchData();

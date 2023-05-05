@@ -57,7 +57,7 @@ exports.createActivity = async (req, res, next) => {
 //update one activity
 exports.updateActivity = async (req, res, next) => {
   try {
-    const activityToUpdate = await Activity.findById(req.params.id);
+    const activityToUpdate = await Activity.findByIdAndUpdate(req.params.id);
     if (!activityToUpdate) {
       const error = new Error("activity not found")
       error.status = 404

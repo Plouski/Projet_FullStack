@@ -7,7 +7,6 @@ import Button from "@/components/UI/Button";
 import Label from "@/components/UI/Label";
 import useFetch from '@/hooks/useFetch';
 import Alert from '@mui/material/Alert';
-import UserContext from "@/context/UserContext";
 import styles from "./index.module.scss";
 
 
@@ -29,8 +28,10 @@ const Index = () => {
     },
   });
 
+  //Creation du compte de COMPANY
   const {data, error, loading, fetchData} = useFetch({url:'/auth/register', method:"POST", body:userForm, token:null})
   
+  //Remplir les champs du formulaire
   const handleChange = (e) => {
     console.log(userForm);
     setUserForm({
@@ -48,18 +49,32 @@ const Index = () => {
     }
   }
 
+  //Quand on clique, cela cree le compte
   const submitRegister = (e) => {
     e.preventDefault();
     fetchData();
-    try {
-      router.push('/auth/login')
-      alert('Votre compte a bien été créé !')
-      localStorage.setItem('token', data.token);
+    if (data){
+      router.push('/auth/login');
+      alert('Votre compte a bien été créé !');
     }
-    catch (error){
-      console.log(error);
-    }
+    // else (error)
+    // console.log(error);
   }
+
+  // const submitRegister = (e) => {
+  //   e.preventDefault();
+  //   fetchData();
+  //   if (error){
+  //     console.log(error);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   if (data.success == true){
+  //     router.push('/auth/login')
+  //     alert('Votre compte a bien été créé !')
+  //   }
+  // }, [data]);
 
   return (
     <>

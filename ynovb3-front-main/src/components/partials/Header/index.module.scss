@@ -7,7 +7,7 @@
     align-content: center;
     height: 100%;
     border-bottom: 1px solid #4E888F;
-    .logo {
+    .left {
         display: flex;
         align-items: center;
         gap: 12px;
@@ -27,6 +27,16 @@
         &__list {
             padding-right: 10px;
             display: flex;
+            .icon{
+                color: #4E888F;
+                border: 1px solid black;
+                border-radius: 15px;
+                display: inline-block;
+                padding: 0px 10px;
+                &:hover{
+                    background-color: #4E888F;
+                }
+            }
         }
         &__item {
             justify-items:end;
@@ -41,9 +51,8 @@
             }
         }
         .dropdown{
-            color: #4E888F;
+            color: #FF5429;
             font-size: 14px;
-            padding: 5px;
             border: 1px solid black;
             border-radius: 15px;
             display: inline-block;
@@ -61,19 +70,20 @@
             }
             &:hover {
                 color:white;
-                background-color: #4E888F;
+                background-color: #FF5429;
             }
         }
     }
 }
 
+//responsive
 @media (max-width : 800px){
     .wrapper{
         padding: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        .logo {
+        .left {
             display: flex;
             align-items: center;
             gap: 12px;

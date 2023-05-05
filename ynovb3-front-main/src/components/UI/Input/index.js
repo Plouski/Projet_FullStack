@@ -1,6 +1,7 @@
 import styles from "./index.module.scss";
 
 const Index = ({ label, type, name, value, isRequired, placeholder, onChange, maxLength, minLength }) => {
+  
   return (
     <div className={styles.wrapper}>
       {

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import UserContext from "@/context/UserContext";
 import Logo from "../../../../public/images/logo/Vista Logos/logo-svg.svg";
+import Home from "../../../../public/images/images/home.png";
 import NavItem from "@/components/UI/NavItem";
 import Button from "@/components/UI/Button";
 import Link from 'next/link';
@@ -21,11 +22,6 @@ const Index = () => {
       link: "/about/freeEntreprise",
       className:styles.nav__item
     },
-    {
-      title: "Voir un freelance",
-      link: "/search",
-      className:styles.nav__item
-    },
   ]
 
   const [open, setOpen] = useState(false);
@@ -36,11 +32,14 @@ const Index = () => {
 
   return (
     <div className={`${styles.wrapper} flex`}>
-      <div className={styles.logo}>
+      <div className={styles.left}>
         <Link href="/">
           <img src={Logo.src} alt="FreeEntreprise" />
         </Link>
-      </div>
+        <Button type="button" title="Voir les freelances" className="btn__secondary" handleClick={
+          () => router.push('/search')
+        }/>
+      </div>   
       {
         isLogged ? (
           <>
@@ -56,9 +55,9 @@ const Index = () => {
           {
             user?.userType === 'COMPANY'  ? (
               <>
-              <li className={styles.nav__item}>
+                <li className={styles.nav__item}>
                   <Button type="button" title="Proposer à un freelance" className="btn__secondary" handleClick={
-                    () => router.push('/entreprise/missions')
+                    () => router.push('/')
                   }/>
                 </li>
                 <li className={styles.nav__item}>
@@ -70,7 +69,14 @@ const Index = () => {
                   <Button type="button" title="Voir mon profil" className="btn__secondary" handleClick={
                     () => router.push('/account/profil')
                   }/>
-                </li> 
+                </li>
+                <li className={styles.nav__item}>
+                  <div className={styles.icon}>
+                    <Link href="/entreprise">
+                      <img src={Home.src} alt="home" />
+                    </Link>
+                  </div>
+                </li>
               </>
             ) : null
           }
@@ -80,14 +86,21 @@ const Index = () => {
               <>
                 <li className={styles.nav__item}>
                   <Button type="button" title="Propositions" className="btn__secondary" handleClick={
-                    () => router.push('/account/profil')
+                    () => router.push('/')
                   }/>
                 </li>
                 <li className={styles.nav__item}>
                   <Button type="button" title="Voir mon profil" className="btn__secondary" handleClick={
                     () => router.push('/account/profil')
                   }/>
-                </li> 
+                </li>
+                <li className={styles.nav__item}>
+                  <div className={styles.icon}>
+                    <Link href="/freelance">
+                      <img src={Home.src} alt="home" />
+                    </Link>
+                  </div>
+                </li>
               </>
             ) : null
           }

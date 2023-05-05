@@ -22,76 +22,72 @@ const Index = () => {
   const [isOpen , setIsOpen] = useState(false);
 
   const [freelanceForm, setFreelanceForm] =useState({
-    rate: null,
-    yearOfExperience: null,
-    skills: []
+    // skills: []
   });
 
-  // const optionList = [
-  //   { value: "red", label: "Red" },
-  //   { value: "green", label: "Green" },
-  //   { value: "yellow", label: "Yellow" },
-  //   { value: "blue", label: "Blue" },
-  //   { value: "white", label: "White" }
-  // ];
+  const optionList = [
+    { value: "red", label: "Red" },
+    { value: "green", label: "Green" },
+    { value: "yellow", label: "Yellow" },
+    { value: "blue", label: "Blue" },
+    { value: "white", label: "White" }
+  ];
 
   function handleSelect() {
     setFreelanceForm();
   }
 
-  const [selectedOptions, setSelectedOptions] = useState();
+  //Modifier un ou des champs dans la base de données
+  let {data , loading, error, fetchData} = useFetch({url:`/user/freelance`,method:"PUT", body:freelanceForm, token:token})
 
-  const {data: dataUpdate, error:errorUpdate, loading:loadingUpdate, fetchData:fetchDataUpdate} = useFetch({url:"/user/freelance", method:"PUT", body:freelanceForm, token:token})
+  //recuperer tous les informations de id venant de la base de données
+  const {data: freelance , error: freelanceError, loading:freelanceLoading, fetchData:fetchDataFreelance } = useFetch({url:`/user`,method:"GET", body:null, token:token})
+  
+  useEffect(() => {
+    setFreelanceForm(user)
+  }, [user]);
 
-  const {data, error, loading, fetchData } = useFetch({ url: "/user", method: "GET", body: null, token: token });
-
-    //Recuperer le token
-    useEffect(() => {
-      setToken(localStorage.getItem('token'))
-    }, []);
-  
-    //Si token existe, on peut recuprer tous les infos
-    useEffect(() => {
-      if (token != null){
-        fetchData();
-      }
-    }, [token]);
-  
-    useEffect(() => {
-      setFreelanceForm(user)
-    }, [user]);
-  
-    useEffect(() => {
-      if (dataUpdate.success) {
-        setIsOpen(false);
-        updateUser(dataUpdate.user)
-      }
-    }, [dataUpdate]);
-  
-    if (loadingUpdate) return <Loading />
-    if (errorUpdate) console.log(errorUpdate);
-  
-    const handleChange = (e) => {
-      console.log(freelanceForm);
-      setFreelanceForm({
-        ...freelanceForm,
-        [e.target.name]: e.target.value
-      })
+  //Si cela a bien modifié la base de données, le modal va se fermer
+  useEffect(() => {
+    if (fetchData.success) {
+      setIsOpen(false);
+      updateUser(fetchData.user)
     }
-  
-    const submitForm = (e) => {
-      e.preventDefault();
-      const token = localStorage.getItem('token');
-      setToken(token);
-      setFreelanceForm();
-      fetchDataUpdate();
-      if (dataUpdate.success) {
-        alert ('Votre poste a bien été modifié !')
-        setIsOpen(false);
-      }
+  }, [fetchData]);
+
+  //Recuperer le token
+  useEffect(() => {
+    setToken(localStorage.getItem('token'))
+  }, []);
+
+  //Si token existe, on peut recuperer tous les infos
+  useEffect(() => {
+    if (token != null){
+      fetchDataFreelance();
     }
-  
-    console.log(data);
+  }, [token]);
+
+  if (loading) return <Loading />
+  if (error) console.log(error);
+
+  //Remplir les champs de formulaire
+  const handleChange = (e) => {
+    console.log(freelanceForm);
+    setFreelanceForm({
+      ...freelanceForm,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  //Quand on clique le bouton, cela modifie le poste de freelance
+  const submitForm = (e) => {
+    e.preventDefault();
+    fetchData();
+    if (data) {
+      alert ('Votre poste de freelance a bien été modifié ! Pour bien tout récupérer les informations, il faut relancer la page.')
+      setIsOpen(false);
+    }
+  }
 
   return (
     <>
@@ -109,31 +105,31 @@ const Index = () => {
                   }<br/>
                   <form onSubmit={(e) => {submitForm(e)}}>
                     <Input 
-                        label="Taux" 
+                        label="Tarif" 
                         type="number" 
                         name="rate" 
-                        value={freelanceForm?.freelance?.rate}
+                        value={freelanceForm?.rate}
                         isRequired={true}
-                        placeholder="entrer votre taux"
+                        placeholder="entrer votre tarif"
                         onChange={(e) => handleChange(e)}
                     />
                     <Input 
                         label="Année d'experience" 
                         type="number" 
                         name="yearOfExperience" 
-                        value={freelanceForm?.freelance?.yearOfExperience}
+                        value={freelanceForm?.yearOfExperience}
                         isRequired={true}
                         placeholder="entrer votre année d'experience"
                         onChange={(e) => handleChange(e)}
                     />
-                    {/* <Select
+                    <Select
                       options={optionList}
                       placeholder="Selectionner votre compétence"
-                      value={freelanceForm?.freelance?.skills?.name}
+                      value={freelanceForm?.skills?.name}
                       onChange={(e) => handleSelect(e)}
                       isSearchable={true}
                       isMulti
-                    /><br/> */}
+                    /><br/>
                     <Button type="submit" title="modifier" className="btn__primary"/>
                   </form>
                 </Modal>
@@ -147,9 +143,9 @@ const Index = () => {
                 {
                   user && (
                     <>
-                      <p>Taux : {data.user?.freelance?.rate}</p><br/>
-                      <p>Année d'expérience : {data.user?.freelance?.yearOfExperience}</p><br/>
-                      <p>Compétence(s) : {data.user?.freelance?.skills?.name ? data.user?.freelance?.skills?.name : 'Pas de compétence disponible'}</p><br/>
+                      <p>Tarif : {freelance?.user?.freelance?.rate ? freelance?.user?.freelance?.rate : 'Il faut créer votre poste de freelance'}</p><br/>
+                      <p>Année d'expérience : {freelance?.user?.freelance?.yearOfExperience ? freelance?.user?.freelance?.yearOfExperience : 'Il faut créer votre poste de freelance' }</p><br/>
+                      <p>Compétence(s) : {freelance?.user?.freelance?.skills?.name ? freelance.user?.freelance?.skills?.name : 'Pas de compétence disponible'}</p><br/>
                     </>
                   )
                 }

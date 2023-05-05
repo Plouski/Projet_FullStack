@@ -19,73 +19,67 @@ const Index = () => {
   const router = useRouter();
 
   const { isLogged, user} = useContext(UserContext);
-
-  const [id, setId] = useState();
   
   const [token, setToken] = useState();
   
   const [skillForm, setSkillForm] = useState({
-    name: "",
+    name:""
   });
+
+  const [id, setId] = useState();
 
   const [isOpen , setIsOpen] = useState(false);
 
+  //Modifier un ou des champs de ID dans la base de données
   let {data , loading, error, fetchData} = useFetch({url:`/skill/${id}`,method:"PUT", body:skillForm, token:token})
-  //const {data: dataUpdate, error:errorUpdate, loading:loadingUpdate, fetchData:fetchDataUpdate} = useFetch({url:`/skill/${id}`, method:"PUT", body:skillForm, token:token})
-    
-  useEffect(() => {
-    setSkillForm()
-  }, []);
 
-  useEffect(() => {
-    if (token != null){
-      fetchData();
-    }
-  }, [token]);
+  //recuperer tous les informations de id venant de la base de données
+  const {data: skill , error: skillError, loading:skillLoading, fetchData:fetchDataSkill } = useFetch({url:`/skill/${id}`,method:"GET", body:null, token:token})
 
+  //Recuperer le token
   useEffect(() => {
     setToken(localStorage.getItem('token'))
   }, []);
 
+  //Si token existe, on peut recuprer tous les infos
+  useEffect(() => {
+    if (token != null){
+      fetchDataSkill();
+    }
+  }, [token]);
+
+  //Si la route a ID on peut voir tous les infos de ID
   useEffect(() => {
     if (router.isReady) {
       setId(router.query.id);
     }
     if (id) {
-      fetchData();
+      fetchDataSkill();
     }
   }, [router.isReady, id])
 
   data = {...data.skill}
 
-  // useEffect(() => {
-  //   if (dataUpdate.success) {
-  //     setIsOpen(false);
-  //     updateUser(dataUpdate.user)
-  //   }
-  // }, [dataUpdate]);
-
   if (loading) return <Loading />
   if (error) console.log(error);
 
   const handleChange = (e) => {
-    setSkillForm({ 
-      ...skillForm, 
-      [e.target.name]: e.target.value })
+    console.log(skillForm)
+    setSkillForm({ ...skillForm, [e.target.name]: e.target.value })
   }
 
-  const submitForm = (e) => {
+  //Quand on click cela modifie
+  const submit = (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    setToken(token);
     fetchData();
     if (data) {
       router.push('/admin/skill')
-      alert ('La compétence a bien été modifiée !')
+      alert ("La compétence a bien été modifiée !")
     }
+    else console.log(error);
   }
 
-  console.log(data)
+  // console.log(skill)
 
   return (
     <>
@@ -101,11 +95,11 @@ const Index = () => {
                             <Alert severity="error">Oups, une erreur s'est produite. Veuillez cliquer le bouton puis réinitialiser.</Alert>
                         ) 
                     }<br/>
-                    <form onSubmit={(e) => {submitForm(e)}}>
+                    <form onSubmit={(e) => {submit(e)}}>
                       <Input 
                       label="Compétence" 
                       type="text" 
-                      name="skill" 
+                      name="name" 
                       value={skillForm?.name}
                       isRequired={true}
                       placeholder="entrer la compétence"
@@ -121,7 +115,7 @@ const Index = () => {
             <div className={styles.deux_colonnes}>
                 <div className={styles.box_1}>
                     <Title Level="h1" title="Mise à jour de cette compétence"/>
-                    <Paragraphe text={data.name} /><br/>
+                    <Paragraphe text={skill?.skill?.name} /><br/>
                     <Button title="Modifier" className="btn__primary" type="button" handleClick={ 
                         () => {
                         setIsOpen(true);

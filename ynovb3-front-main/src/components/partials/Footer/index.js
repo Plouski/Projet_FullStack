@@ -1,26 +1,9 @@
-import { useContext } from "react";
-import { useRouter } from "next/router";
 import styles from "./index.module.scss";
-import UserContext from "@/context/UserContext";
-import Paragraphe from "@/components/UI/Paragraphe";
 import Logo from "../../../../public/images/logo/Vista Logos/logo-svg.svg";
 import Title from "@/components/UI/Title"
 import Link from 'next/link';
 
 const Index = () => {
-
-  
-  const router = useRouter();
-  
-  const { user, isLogged, logout } = useContext(UserContext);
-
-  // const menu = [
-  //   {
-  //     title: "About",
-  //     link: "./about",
-  //     className:styles.nav__item
-  //   },
-  // ]
 
   return (
     <div className={styles.box}>

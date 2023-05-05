@@ -19,7 +19,7 @@ export const UserContextProvider = ({ children }) => {
 
   const [isLogged, setIsLogged] = useState(false);
 
-  const { data, error, loading, fetchData } = useFetch({ url: "/user", method: "GET", body: null, token: token });
+  const { data, fetchData } = useFetch({ url: "/user", method: "GET", body: null, token: token });
 
   useEffect(() => {
     if (typeof window !== 'undefined') {

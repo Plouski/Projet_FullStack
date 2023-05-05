@@ -2,7 +2,9 @@ import styles from "./index.module.scss";
 import ProductCard from "@/components/activity/userCard";
 
 const Index = ({ products }) => {
-  console.log(products, "props product");
+  
+  // console.log(products, "props product");
+  
   return (
     <div className={styles.wrapper}>
       {

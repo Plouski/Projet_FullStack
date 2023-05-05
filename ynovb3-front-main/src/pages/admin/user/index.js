@@ -15,23 +15,24 @@ export default function Home() {
 
   const [token, setToken] = useState();
 
-  const { data, error, loading, fetchData } = useFetch({ url: "/user/admin/users", method: "GET", body: null, token: token });
+  //Affichage de tous les infos d'utilisateurs
+  const { data, fetchData } = useFetch({ url: "/user/admin/users", method: "GET", body: null, token: token });
   
+  //Recuperer le token
+  useEffect(() => {
+    setToken(localStorage.getItem('token'))
+  }, []);
 
+  //SI le token existe, on peut afficher tous les infos
   useEffect(() => {
     if (token != null){
       fetchData();
     }
   }, [token]);
-
-  useEffect(() => {
-    setToken(localStorage.getItem('token'))
-  }, []);
   
-  console.log(data);
-  // console.log(getUser)
+  // console.log(data);
+
   return (
-    
     <>
       {
         isLogged && user.isAdmin === true ? (

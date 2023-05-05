@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: inherit;
     align-items: center;
-    .left__part {
+    .right__part {
         .title{
             color:red;
         }
@@ -11,10 +11,10 @@
         height: 100%;
         align-items: center;
         .form__wrapper {
-            margin : auto 50px;
+            padding : 0 50px 0;
         }
     }
-    .right__part {
+    .left__part {
         width: 50%;
         .wrapper {
             justify-content: center;

@@ -2,12 +2,13 @@ import styles from "./index.module.scss";
 import { useRouter } from 'next/router';
 import Title from "@/components/UI/Title";
 import Button from "@/components/UI/Button";
-import Paragraphe from "@/components/UI/Paragraphe";
-import ProductGrid from "@/components/mission/userGrid";
 
 const Index = ({ product }) => {
-  console.log(product, "props product")
+  
   const router = useRouter();
+
+  // console.log(product, "props product")
+  
   return (
     <div className={styles.card}>
       <div className={styles.content}>
@@ -23,7 +24,7 @@ const Index = ({ product }) => {
           <p>Description : {product.description}</p>
         </div><br/>
         <Button type="button" title="Modifier" className="btn__secondary" handleClick={
-            () => router.push(`activity/update/${product._id}`)
+            () => router.push(`missions/update/${product._id}`)
         }/>
         <Button type="button" title="Supprimer" className="btn__primary" handleClick={
             () => router.push(`missions/delete/${product._id}`)

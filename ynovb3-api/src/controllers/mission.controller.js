@@ -123,7 +123,7 @@ exports.deleteMyMission = async (req, res, next) => {
 exports.getMissions = async (req, res, next) => {
   try {
     //find all mission and populate propositions
-    const missions = Mission.find().populate('propositions');
+    const missions = await Mission.find().populate('propositions');
     // return missions
     res.send({
       missions: missions,
@@ -139,7 +139,7 @@ exports.getMissions = async (req, res, next) => {
 exports.getMission = async (req, res, next) => {
    //find one mission and populate propositions
   try {
-    const missions = Mission.findbyId(req.params.id).populate('propositions');
+    const missions = await Mission.findbyId(req.params.id).populate('propositions');
     //return mission
     res.send({
       missions: missions,

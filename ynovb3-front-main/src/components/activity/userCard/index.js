@@ -5,8 +5,11 @@ import Button from "@/components/UI/Button";
 import ProductGrid from "@/components/skill/userGrid";
 
 const Index = ({ product }) => {
-  console.log(product, "props product")
+  
   const router = useRouter();
+
+  // console.log(product, "props product")
+
   return (
     <div className={styles.card}>
       <div className={styles.content}>

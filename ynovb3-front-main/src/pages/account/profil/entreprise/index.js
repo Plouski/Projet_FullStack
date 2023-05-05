@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect } from 'react';
-import { useRouter } from "next/router";
 import UserContext from "@/context/UserContext";
 import useFetch from "@/hooks/useFetch";
 import Input from "@/components/UI/Input";
@@ -21,79 +20,68 @@ const Index = () => {
 
   const [isOpen , setIsOpen] = useState(false);
 
-  const [companyForm, setCompanyForm] = useState({
-    name: "",
-    status: "",
-    siret: null,
-    address: {
-      city: "",
-      zipCode: null,
-      street: ""
-    },
-  });
+  const [companyForm, setCompanyForm] = useState({});
 
-  const {data: dataUpdate, error:errorUpdate, loading:loadingUpdate, fetchData:fetchDataUpdate} = useFetch({url:`/user/company`, method:"PUT", body:companyForm, token:token})
-    
-  const {data, error, loading, fetchData } = useFetch({ url: "/user", method: "GET", body: null, token: token });
+  //Modifier un ou des champs dans la base de données
+  let {data , loading, error, fetchData} = useFetch({url:`/user/company`,method:"PUT", body:companyForm, token:token})
+
+  //Recuperer tous les informations de id venant de la base de données
+  const {data: company , error: companyError, loading:companyLoading, fetchData:fetchDataCompany } = useFetch({url:`/user`,method:"GET", body:null, token:token})
+
+  useEffect(() => {
+    setCompanyForm(user)
+  }, [user]);
+  
+  //Si cela a bien modifié la base de données, le modal va se fermer
+  useEffect(() => {
+    if (fetchData.success) {
+      setIsOpen(false);
+      updateUser(fetchData.user)
+    }
+  }, [fetchData]);
 
   //Recuperer le token
   useEffect(() => {
     setToken(localStorage.getItem('token'))
   }, []);
 
-  //Si token existe, on peut recuprer tous les infos
+  //Si token existe, on peut recuperer tous les infos
   useEffect(() => {
     if (token != null){
-      fetchData();
+      fetchDataCompany();
     }
   }, [token]);
 
-  useEffect(() => {
-    setCompanyForm(user)
-  }, [user]);
+  if (loading) return <Loading />
+  if (error) console.log(error);
 
-  useEffect(() => {
-    if (dataUpdate.success) {
-      setIsOpen(false);
-      updateUser(dataUpdate.user)
-    }
-  }, [dataUpdate]);
-
-  if (loadingUpdate) return <Loading />
-  if (errorUpdate) console.log(errorUpdate);
-
+  //Remplir les champs de formulaire
   const handleChange = (e) => {
     console.log(companyForm);
     setCompanyForm({ 
-      ...companyForm, 
-      company:{
+      ...companyForm,
       [e.target.name]: e.target.value
-      }
     })
+    if (e.target.name === "street"){
+      companyForm.address.street = e.target.value
+    }
     if (e.target.name === "zipCode"){
       companyForm.address.zipCode = e.target.value
     }
     if (e.target.name === "city"){
       companyForm.address.city = e.target.value
     }
-    if (e.target.name === "street"){
-      companyForm.address.street = e.target.value
-    }
   }
 
+  //Quand on clique le bouton, cela modifie l'entreprise
   const submitForm = (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    setToken(token);
-    fetchDataCompany();
-    fetchDataUpdate();
-    if (dataUpdate.success) {
-      alert ('Votre entreprise a bien été modifiée !')
+    fetchData();
+    if (data) {
+      alert ('Votre entreprise a bien été modifiée ! Pour bien tout récupérer les informations, il faut relancer la page.')
       setIsOpen(false);
     }
   }
-
-  console.log(data);
 
   return (
     <>
@@ -114,7 +102,7 @@ const Index = () => {
                       label="Nom d'entreprise" 
                       type="text" 
                       name="name" 
-                      value={companyForm.company?.name}
+                      value={companyForm?.name}
                       isRequired={true}
                       placeholder="entrer le nom de votre entreprise"
                       onChange={(e) => handleChange(e)}
@@ -123,7 +111,7 @@ const Index = () => {
                     label="Status" 
                     type="text" 
                     name="status" 
-                    value={companyForm.company?.status}
+                    value={companyForm?.status}
                     isRequired={true}
                     placeholder="SAS, SASU, SARL, EURL, SA"
                     onChange={(e) => handleChange(e)}
@@ -131,8 +119,8 @@ const Index = () => {
                     <Input 
                     label="Siret" 
                     type="number" 
-                    name="email" 
-                    value={companyForm.company?.siret}
+                    name="siret" 
+                    value={companyForm?.siret}
                     isRequired={true}
                     placeholder="entrer votre siret"
                     onChange={(e) => handleChange(e)}
@@ -144,17 +132,17 @@ const Index = () => {
                       placeholder="entrer la rue de votre entreprise"
                       isRequired={true}
                       onChange={(e) => handleChange(e)}
-                      value={companyForm.company?.address?.street}
+                      value={companyForm?.user?.company?.address?.street}
                     />
                     <Input
                       label="Code postal" 
-                      type="zipcode"
+                      type="number"
                       name="zipCode"
                       maxLength= "5"
                       placeholder="entrer le code postal de votre entreprise"
                       isRequired={true}
                       onChange={(e) => handleChange(e)}
-                      value={companyForm.company?.address?.zipCode}
+                      value={companyForm?.user?.company?.address?.zipCode}
                     />
                     <Input 
                       label="Ville" 
@@ -163,7 +151,7 @@ const Index = () => {
                       placeholder="entrer la ville de votre ville"
                       isRequired={true}
                       onChange={(e) => handleChange(e)}
-                      value={companyForm.company?.address?.city}
+                      value={companyForm?.user?.company?.address?.city}
                     />
                     <Button type="submit" title="modifier" className="btn__primary"/>
                   </form>
@@ -178,12 +166,12 @@ const Index = () => {
                 {
                   user && (
                     <>
-                      <p>Nom : {data.user?.company?.name}</p><br/>
-                      <p>Status : {data.user?.company?.status}</p><br/>
-                      <p>Siret : {data.user?.company?.siret}</p><br/>
-                      <p>Adresse : {data.user?.company?.address.street}</p><br/>
-                      <p>Code postal : {data.user?.company?.address.zipCode}</p><br/>
-                      <p>Ville : {data.user?.company?.address.city}</p><br/>
+                      <p>Nom : {company?.user?.company?.name ? company?.user?.company?.name : 'Il faut créer votre entreprise'}</p><br/>
+                      <p>Status : {company?.user?.company?.status ? company?.user?.company?.status : 'Il faut créer votre entreprise'}</p><br/>
+                      <p>Siret : {company?.user?.company?.siret ? company?.user?.company?.siret : 'Il faut créer votre entreprise'}</p><br/>
+                      <p>Adresse : {company?.user?.company?.address.street ? company?.user?.company?.address.street : 'Il faut créer votre entreprise'}</p><br/>
+                      <p>Code postal : {company?.user?.company?.address.zipCode ? company?.user?.company?.address.zipCode : 'Il faut créer votre entreprise'}</p><br/>
+                      <p>Ville : {company?.user?.company?.address.city ? company?.user?.company?.address.city : 'Il faut créer votre entreprise'}</p><br/>
                     </>
                   ) 
                 }

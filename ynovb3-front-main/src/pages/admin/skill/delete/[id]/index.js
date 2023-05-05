@@ -68,7 +68,7 @@ const Index = () => {
     // else console.log(error);
   }
 
-  console.log(skill)
+  // console.log(skill)
 
   return (
     <>

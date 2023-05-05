@@ -1,7 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import Title from "@/components/UI/Title";
-import Paragraphe from "@/components/UI/Paragraphe";
-import Container from "@/components/UI/Container"
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import useFetch from "@/hooks/useFetch";
@@ -18,24 +16,24 @@ export default function Home() {
 
   const [token, setToken] = useState();
 
+  //Affichage tous les infos de missions d'utilisateur connecte
   const { data, error, loading, fetchData } = useFetch({ url: "/mission/missions", method: "GET", body: null, token: token });
   
+  //Recuperer le token
+  useEffect(() => {
+    setToken(localStorage.getItem('token'))
+  }, []);
 
+  //Si le token existe cela affiche tous les infos
   useEffect(() => {
     if (token != null){
       fetchData();
     }
   }, [token]);
-
-  useEffect(() => {
-    setToken(localStorage.getItem('token'))
-  }, []);
   
-  console.warn(data);
-  console.log(error)
+  // console.warn(data);
 
   return (
-    
     <>
       {
         isLogged && user.userType === "COMPANY" ? (

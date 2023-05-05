@@ -1,8 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useRouter } from 'next/router';
 import Title from "@/components/UI/Title";
-import Paragraphe from "@/components/UI/Paragraphe";
-import Container from "@/components/UI/Container"
 import styles from "./index.module.scss";
 import useFetch from "@/hooks/useFetch";
 import UserContext from "@/context/UserContext";
@@ -18,21 +16,22 @@ export default function Home() {
 
   const [token, setToken] = useState();
 
-  const { data, error, loading, fetchData } = useFetch({ url: "/activity", method: "GET", body: null, token: token });
+  const { data, fetchData } = useFetch({ url: "/activity", method: "GET", body: null, token: token });
   
+  //Obtenir le token
+  useEffect(() => {
+    setToken(localStorage.getItem('token'))
+  }, []);
 
+  //Si le token existe cela affiche tous les infos
   useEffect(() => {
     if (token != null){
       fetchData();
     }
   }, [token]);
-
-  useEffect(() => {
-    setToken(localStorage.getItem('token'))
-  }, []);
   
-  console.log(data);
-  // console.log(getUser)
+  // console.log(data);
+
   return (
     
     <>

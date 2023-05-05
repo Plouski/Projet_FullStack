@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from "../../../public/images/images/personne.jpg";
 import styles from "./index.module.scss";
-import Title from "@/components/UI/Title";
 
 const Index = ({ freelance }) => {
 
@@ -21,6 +20,11 @@ const Index = ({ freelance }) => {
                 </div>
                 <div className={styles.card_skill}>
                     Compétences : {freelance.skills}
+                    {/* <ul>
+                        {freelance.skills.map((skill, index) => (
+                        <li key={index}>{skill.name}</li>
+                        ))}
+                    </ul> */}
                 </div>
             </div>
         </div>

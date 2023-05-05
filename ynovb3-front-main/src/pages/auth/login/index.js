@@ -9,6 +9,7 @@ import Title from "@/components/UI/Title";
 import Loading from "@/components/UI/Loading";
 import Label from "@/components/UI/Label";
 import Notification from "@/components/UI/Notification";
+import styles from "./index.module.scss";
 
 const Index = () => {
 
@@ -23,8 +24,10 @@ const Index = () => {
     password:""
   });
 
+  //Se connecter
   const {data, error, loading, fetchData} = useFetch({ url: "/auth/login", method: "POST", body: userForm, token: null })
 
+  //Recuperer les infos d'utilisateur
   const { data: user , error: userError, loading:userLoading, fetchData:fetchDataUser } = useFetch({ url: "/user", method: "GET", body: null, token: token });
   
   useEffect(() => {
@@ -38,7 +41,6 @@ const Index = () => {
     fetchDataUser();
     if (user.success) {
       login({
-        //tous les utilisateurs
         firstName: user.user.firstName,
         lastName: user.user.lastName,
         email:user.user.email,
@@ -55,6 +57,7 @@ const Index = () => {
     }
   },[token,user])
 
+  //REmplir les champs du formulaire
   const handleChange = (e) => {
     setUserForm({
       ...userForm,
@@ -62,6 +65,7 @@ const Index = () => {
     })
   }
 
+  //Quand on clique, on peut se connecter s'il y a pas d'erreur
   const submitLogin = (e) => {
     e.preventDefault();
     fetchData();
@@ -91,6 +95,9 @@ const Index = () => {
           onChange={(e) => handleChange(e)}
           value={userForm.password}
         />
+        <div className={styles.password}>
+          <Link href="/auth/password/forgotPassword">Mot de passe oublié ?</Link>
+        </div>
         <Button
           type="submit"
           title="Se connecter"

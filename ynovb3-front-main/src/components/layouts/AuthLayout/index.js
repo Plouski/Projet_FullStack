@@ -4,7 +4,8 @@ import styles from "./index.module.scss";
 import Image from "../../../../public/images/images/auth.jpg";
 
 
-const Index = ({ children, title }) => {
+const Index = ({ children}) => {
+
   return (
     <>
       <div className={styles.wrapper}>
@@ -15,7 +16,7 @@ const Index = ({ children, title }) => {
         </div>
         <div className={styles.right__part}>
           <div className={styles.form__wrapper}>
-          {children}
+            {children}
           </div>
         </div>
       </div>
