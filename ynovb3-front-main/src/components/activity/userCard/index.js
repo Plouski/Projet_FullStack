@@ -18,13 +18,13 @@ const Index = ({ product }) => {
           {
             <ProductGrid products={product.skills}/>
           }
-        </div>
+        </div><br/>
         <Button type="button" title="Modifier" className="btn__secondary" handleClick={
             () => router.push(`activity/update/${product._id}`)
         }/>
         <Button type="button" title="Supprimer" className="btn__primary" handleClick={
             () => router.push(`activity/delete/${product._id}`)
-        }/>
+        }/><br/>
       </div>
     </div>
   );
