@@ -10,7 +10,6 @@ import Modal from "@/components/UI/Modal";
 import Alert from '@mui/material/Alert';
 import Image from "../../../../../../public/images/images/supprimer.png";
 import Container from "@/components/UI/Container";
-import Paragraphe from "@/components/UI/Paragraphe";
 import Erreur_type from "@/components/partials/Erreur_type";
 
 const Index = () => {
@@ -91,7 +90,8 @@ const Index = () => {
                         <Title Level="h1" title="Suppression de mission"/>
                         <p>{mission.missions?.dateStart} - {mission.missions?.dateEnd}</p><br/>
                         <Title Level="h3" title={mission.missions?.title}/>
-                        <Paragraphe text={mission.missions?.description} /><br/>
+                        <p>Montant : {mission.missions?.amount}</p>
+                        <p>Description : {mission.missions?.description}</p><br/>
                         <Button title="Supprimer" className="btn__primary" type="button" handleClick={ 
                             () => {
                             setIsOpen(true);
