@@ -59,6 +59,8 @@ const Index = () => {
     // console.log(error);
   }
 
+  //A UTILISER QUAND LE SMTP MARCHE (EMAIL)
+
   // const submitRegister = (e) => {
   //   e.preventDefault();
   //   fetchData();
